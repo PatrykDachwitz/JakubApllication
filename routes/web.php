@@ -1,18 +1,19 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Book;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+Route::get('/admin', function () {
+    return view('admin.main', [
+        'books' => Book::get()
     ]);
 });
+Route::get('{any}', function () {
+    return view('main');
+})->where('any', '.*');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
